@@ -43,7 +43,8 @@ const Index = () => {
           <div className="animate-fade-in-up">
             <img src={universityLogo} alt="Université Sultan Moulay Slimane" className="h-20 mx-auto mb-8 drop-shadow-lg" />
           </div>
-          
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-primary-foreground mb-6 animate-fade-in-up animate-delay-100">AR.Predict.AI<span className="text-accent">AI</span>
+          </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 max-w-2xl mx-auto mb-4 animate-fade-in-up animate-delay-200">
             Prédisez la réussite académique grâce à l'intelligence artificielle
           </p>
