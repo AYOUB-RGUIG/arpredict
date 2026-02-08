@@ -6,7 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { predict } from "@/lib/prediction";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { predict, type PredictionInput } from "@/lib/prediction";
 
 const PredictionForm = () => {
   const navigate = useNavigate();
@@ -16,10 +18,18 @@ const PredictionForm = () => {
   const [classParticipation, setClassParticipation] = useState(60);
   const [failedSubjects, setFailedSubjects] = useState(1);
   const [weeklyStudyHours, setWeeklyStudyHours] = useState(15);
+  const [distanceToSchool, setDistanceToSchool] = useState(5);
+  const [parentEducation, setParentEducation] = useState<PredictionInput["parentEducation"]>("secondaire");
+  const [familySituation, setFamilySituation] = useState<PredictionInput["familySituation"]>("mariés");
+  const [parentIllness, setParentIllness] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const input = { attendanceRate, generalAverage, homeworkRate, classParticipation, failedSubjects, weeklyStudyHours };
+    const input: PredictionInput = {
+      attendanceRate, generalAverage, homeworkRate, classParticipation,
+      failedSubjects, weeklyStudyHours, distanceToSchool, parentEducation,
+      familySituation, parentIllness,
+    };
     const result = predict(input);
     navigate("/dashboard", { state: { input, result } });
   };
@@ -123,6 +133,65 @@ const PredictionForm = () => {
                     className="h-11"
                   />
                   <p className="text-xs text-muted-foreground">Temps d'étude personnel par semaine</p>
+                </div>
+
+                {/* Distance */}
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium">Distance domicile-école (km)</Label>
+                  <Input
+                    type="number"
+                    value={distanceToSchool}
+                    onChange={(e) => setDistanceToSchool(Math.max(0, parseFloat(e.target.value) || 0))}
+                    min={0}
+                    max={200}
+                    step={0.5}
+                    className="h-11"
+                  />
+                  <p className="text-xs text-muted-foreground">Distance entre le domicile et l'établissement</p>
+                </div>
+
+                {/* Parent Education */}
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium">Niveau d'études des parents</Label>
+                  <Select value={parentEducation} onValueChange={(v) => setParentEducation(v as PredictionInput["parentEducation"])}>
+                    <SelectTrigger className="h-11">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="aucun">Aucun</SelectItem>
+                      <SelectItem value="primaire">Primaire</SelectItem>
+                      <SelectItem value="secondaire">Secondaire</SelectItem>
+                      <SelectItem value="supérieur">Supérieur</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">Plus haut niveau d'éducation atteint</p>
+                </div>
+
+                {/* Family Situation */}
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium">Situation familiale</Label>
+                  <Select value={familySituation} onValueChange={(v) => setFamilySituation(v as PredictionInput["familySituation"])}>
+                    <SelectTrigger className="h-11">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="mariés">Parents mariés</SelectItem>
+                      <SelectItem value="divorcés">Parents divorcés</SelectItem>
+                      <SelectItem value="décès_un">Décès d'un parent</SelectItem>
+                      <SelectItem value="décès_deux">Décès des deux parents</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">Situation actuelle des parents</p>
+                </div>
+
+                {/* Parent Illness */}
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium">Maladie grave d'un parent</Label>
+                  <div className="flex items-center gap-3 h-11">
+                    <Switch checked={parentIllness} onCheckedChange={setParentIllness} />
+                    <span className="text-sm text-muted-foreground">{parentIllness ? "Oui" : "Non"}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Un parent souffre-t-il d'une maladie grave cette année ?</p>
                 </div>
               </div>
 

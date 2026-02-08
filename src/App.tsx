@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 import Index from "./pages/Index";
 import PredictionForm from "./pages/PredictionForm";
 import Dashboard from "./pages/Dashboard";
+import CollectiveForm from "./pages/CollectiveForm";
+import CollectiveDashboard from "./pages/CollectiveDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +24,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/prediction" element={<PredictionForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/collective" element={<CollectiveForm />} />
+          <Route path="/collective-dashboard" element={<CollectiveDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
