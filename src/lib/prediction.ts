@@ -1,0 +1,129 @@
+export interface PredictionInput {
+  attendanceRate: number;
+  generalAverage: number;
+  homeworkRate: number;
+  classParticipation: number;
+  failedSubjects: number;
+  weeklyStudyHours: number;
+}
+
+export interface FeatureImportance {
+  feature: string;
+  importance: number;
+  value: number;
+}
+
+export interface Factor {
+  name: string;
+  impact: "positive" | "negative";
+  description: string;
+}
+
+export interface PredictionResult {
+  riskScore: number;
+  riskLevel: "Faible" | "Moyen" | "Élevé";
+  recommendations: string[];
+  featureImportance: FeatureImportance[];
+  factors: Factor[];
+  diagnosis: string;
+}
+
+export function predict(input: PredictionInput): PredictionResult {
+  const attendanceRisk = 1 - input.attendanceRate / 100;
+  const averageRisk = 1 - input.generalAverage / 20;
+  const homeworkRisk = 1 - input.homeworkRate / 100;
+  const participationRisk = 1 - input.classParticipation / 100;
+  const failedRisk = Math.min(input.failedSubjects / 5, 1);
+  const studyRisk = 1 - Math.min(input.weeklyStudyHours / 30, 1);
+
+  const weights = {
+    attendance: 0.2,
+    average: 0.25,
+    homework: 0.15,
+    participation: 0.1,
+    failed: 0.2,
+    study: 0.1,
+  };
+
+  const rawScore =
+    weights.attendance * attendanceRisk +
+    weights.average * averageRisk +
+    weights.homework * homeworkRisk +
+    weights.participation * participationRisk +
+    weights.failed * failedRisk +
+    weights.study * studyRisk;
+
+  const noise = (Math.random() - 0.5) * 0.04;
+  const riskScore = Math.max(0, Math.min(100, Math.round((rawScore + noise) * 100)));
+  const riskLevel: PredictionResult["riskLevel"] =
+    riskScore <= 33 ? "Faible" : riskScore <= 66 ? "Moyen" : "Élevé";
+
+  const recommendations: string[] = [];
+  if (attendanceRisk > 0.4) recommendations.push("Améliorer le taux de présence aux cours pour renforcer la compréhension des matières.");
+  if (averageRisk > 0.5) recommendations.push("Consulter un tuteur pour renforcer les bases dans les matières principales.");
+  if (homeworkRisk > 0.4) recommendations.push("Compléter systématiquement les devoirs et exercices assignés.");
+  if (participationRisk > 0.5) recommendations.push("Participer activement en classe pour améliorer la compréhension.");
+  if (failedRisk > 0.3) recommendations.push("Prioriser le rattrapage des matières échouées avec un plan d'étude ciblé.");
+  if (studyRisk > 0.5) recommendations.push("Augmenter progressivement le temps d'étude hebdomadaire.");
+  if (riskScore > 50) recommendations.push("Envisager un accompagnement pédagogique personnalisé.");
+  if (recommendations.length === 0) {
+    recommendations.push("Excellent profil ! Continuez sur cette lancée.");
+    recommendations.push("Envisagez des activités parascolaires pour enrichir votre parcours.");
+  }
+
+  const featureImportance: FeatureImportance[] = [
+    { feature: "Moyenne générale", importance: Math.round(weights.average * averageRisk * 100), value: input.generalAverage },
+    { feature: "Taux de présence", importance: Math.round(weights.attendance * attendanceRisk * 100), value: input.attendanceRate },
+    { feature: "Matières échouées", importance: Math.round(weights.failed * failedRisk * 100), value: input.failedSubjects },
+    { feature: "Devoirs réalisés", importance: Math.round(weights.homework * homeworkRisk * 100), value: input.homeworkRate },
+    { feature: "Participation", importance: Math.round(weights.participation * participationRisk * 100), value: input.classParticipation },
+    { feature: "Heures d'étude", importance: Math.round(weights.study * studyRisk * 100), value: input.weeklyStudyHours },
+  ].sort((a, b) => b.importance - a.importance);
+
+  const factors: Factor[] = [];
+  if (attendanceRisk <= 0.3) factors.push({ name: "Présence", impact: "positive", description: "Excellent taux de présence en cours" });
+  else if (attendanceRisk > 0.5) factors.push({ name: "Présence", impact: "negative", description: "Taux de présence insuffisant" });
+  if (averageRisk <= 0.3) factors.push({ name: "Moyenne", impact: "positive", description: "Bonne performance académique globale" });
+  else if (averageRisk > 0.5) factors.push({ name: "Moyenne", impact: "negative", description: "Moyenne générale à renforcer" });
+  if (homeworkRisk <= 0.3) factors.push({ name: "Devoirs", impact: "positive", description: "Bonne assiduité dans les devoirs" });
+  else if (homeworkRisk > 0.5) factors.push({ name: "Devoirs", impact: "negative", description: "Devoirs souvent incomplets" });
+  if (participationRisk <= 0.3) factors.push({ name: "Participation", impact: "positive", description: "Participation active en classe" });
+  else if (participationRisk > 0.5) factors.push({ name: "Participation", impact: "negative", description: "Participation en classe insuffisante" });
+  if (failedRisk >= 0.5) factors.push({ name: "Échecs", impact: "negative", description: "Plusieurs matières échouées" });
+  else if (failedRisk === 0) factors.push({ name: "Échecs", impact: "positive", description: "Aucune matière échouée" });
+  if (studyRisk <= 0.3) factors.push({ name: "Étude", impact: "positive", description: "Bon volume d'étude hebdomadaire" });
+  else if (studyRisk > 0.6) factors.push({ name: "Étude", impact: "negative", description: "Temps d'étude insuffisant" });
+
+  let diagnosis: string;
+  if (riskScore <= 33) diagnosis = "L'étudiant présente un profil académique solide avec un faible risque de décrochage. Les indicateurs sont globalement positifs et encourageants.";
+  else if (riskScore <= 66) diagnosis = "Le profil présente des signaux mixtes. Certains indicateurs nécessitent une attention particulière pour prévenir une détérioration des résultats.";
+  else diagnosis = "Profil à risque élevé nécessitant une intervention pédagogique rapide. Plusieurs facteurs critiques ont été identifiés par notre modèle.";
+
+  return { riskScore, riskLevel, recommendations, featureImportance, factors, diagnosis };
+}
+
+export function generateSimulatedData() {
+  const riskDistribution = [
+    { name: "Faible", value: 45, fill: "#2BA87A" },
+    { name: "Moyen", value: 35, fill: "#E9A020" },
+    { name: "Élevé", value: 20, fill: "#D93636" },
+  ];
+
+  const correlationData = Array.from({ length: 30 }, () => {
+    const avg = Math.random() * 16 + 4;
+    const risk = Math.max(5, Math.min(95, 100 - avg * 4.5 + (Math.random() - 0.5) * 25));
+    return { average: parseFloat(avg.toFixed(1)), risk: Math.round(risk) };
+  });
+
+  const evolutionData = [
+    { month: "Sep", risk: 45 },
+    { month: "Oct", risk: 42 },
+    { month: "Nov", risk: 48 },
+    { month: "Déc", risk: 38 },
+    { month: "Jan", risk: 35 },
+    { month: "Fév", risk: 30 },
+    { month: "Mar", risk: 28 },
+  ];
+
+  return { riskDistribution, correlationData, evolutionData };
+}
