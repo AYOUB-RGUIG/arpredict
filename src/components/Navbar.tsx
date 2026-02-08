@@ -20,8 +20,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img src={universityLogo} alt="Université Sultan Moulay Slimane" className="h-10 w-auto" />
-          <span className="text-lg font-bold text-foreground hidden sm:inline">
-            EduPredict <span className="text-secondary">A-R.Predict AI</span>
+          <span className="text-lg font-bold text-foreground hidden sm:inline"> A-R.Predict AI<span className="text-secondary">AI</span>
           </span>
         </Link>
 
