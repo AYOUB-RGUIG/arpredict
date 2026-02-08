@@ -43,7 +43,7 @@ const Index = () => {
           <div className="animate-fade-in-up">
             <img src={universityLogo} alt="Université Sultan Moulay Slimane" className="h-20 mx-auto mb-8 drop-shadow-lg" />
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-primary-foreground mb-6 animate-fade-in-up animate-delay-100">A-R.Predict AI<span className="text-accent">AI</span>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-primary-foreground mb-6 animate-fade-in-up animate-delay-100">AR.Predict AI<span className="text-accent">AI</span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 max-w-2xl mx-auto mb-4 animate-fade-in-up animate-delay-200">
             Prédisez la réussite académique grâce à l'intelligence artificielle
@@ -145,10 +145,9 @@ const Index = () => {
             <img src={universityLogo} alt="Logo" className="h-8" />
             <span className="font-semibold text-foreground">A-R.Predict AI</span>
           </div>
-          <p className="text-xs text-muted-foreground">© 2026 ayoub rguig 
-Master ITIAIP 
- École Supérieure de l'Éducation et de la Formation beni mellal
-module: introduction a l'ia</p>
+          <p className="text-xs text-muted-foreground">© 2026 ayoub rguig  
+Master ITIAIP  
+ École Supérieure de l'Éducation et de la Formation beni mellal</p>
         </div>
       </footer>
     </div>;
