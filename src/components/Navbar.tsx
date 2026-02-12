@@ -26,13 +26,13 @@ const Navbar = () => {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img alt="Université Sultan Moulay Slimane" className="h-10 w-auto object-fill" src="/lovable-uploads/90c0384c-7c0d-4789-9a84-f44b9bcb008b.png" />
-          <span className="text-lg font-bold text-foreground hidden sm:inline">AR.Predict AI<span className="text-secondary">AI</span>
+          <span className="text-lg font-bold text-foreground hidden sm:inline">AR.PREDICT AI<span className="text-secondary">AI</span>
           </span>
         </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
-          {links.map(link => <Link key={link.path} to={link.path} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(link.path) ? "bg-secondary/10 text-secondary" : "text-muted-foreground hover:text-foreground hover:bg-muted"}`}>
+          {links.map((link) => <Link key={link.path} to={link.path} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(link.path) ? "bg-secondary/10 text-secondary" : "text-muted-foreground hover:text-foreground hover:bg-muted"}`}>
               {link.label}
             </Link>)}
         </div>
@@ -45,7 +45,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {mobileOpen && <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border px-4 pb-4">
-          {links.map(link => <Link key={link.path} to={link.path} onClick={() => setMobileOpen(false)} className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all ${isActive(link.path) ? "bg-secondary/10 text-secondary" : "text-muted-foreground hover:text-foreground"}`}>
+          {links.map((link) => <Link key={link.path} to={link.path} onClick={() => setMobileOpen(false)} className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all ${isActive(link.path) ? "bg-secondary/10 text-secondary" : "text-muted-foreground hover:text-foreground"}`}>
               {link.label}
             </Link>)}
         </div>}
