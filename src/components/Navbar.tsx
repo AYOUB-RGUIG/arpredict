@@ -26,8 +26,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
           <img alt="Université Sultan Moulay Slimane" className="h-10 w-auto object-fill" src="/lovable-uploads/90c0384c-7c0d-4789-9a84-f44b9bcb008b.png" />
-          
-
+          <span className="text-lg font-bold text-foreground hidden sm:inline">AR.PREDICT AI<span className="text-secondary">AI</span>
+          </span>
         </Link>
 
         {/* Desktop nav */}
