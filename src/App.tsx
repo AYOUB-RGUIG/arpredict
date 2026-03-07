@@ -13,6 +13,7 @@ import CollectiveForm from "./pages/CollectiveForm";
 import CollectiveDashboard from "./pages/CollectiveDashboard";
 import TechnicalReport from "./pages/TechnicalReport";
 import NotFound from "./pages/NotFound";
+import AIChatbot from "@/components/AIChatbot";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/technical-report" element={<TechnicalReport />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <AIChatbot />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
