@@ -40,6 +40,7 @@ const App = () => {
             <Route path="/technical-report" element={<TechnicalReport />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <AIChatbot />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
