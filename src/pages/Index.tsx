@@ -70,7 +70,7 @@ const Index = () => {
             value: "3",
             label: "Modèles IA"
           }].map((stat) => <div key={stat.label} className="text-center">
-                <div className="text-2xl md:text-3xl font-extrabold text-accent">{stat.value}</div>
+                <div className="text-2xl md:text-3xl font-extrabold text-primary-foreground">{stat.value}</div>
                 <div className="text-xs text-primary-foreground/60 mt-1">{stat.label}</div>
               </div>)}
           </div>
