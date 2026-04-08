@@ -49,8 +49,10 @@ const Index = () => {
           <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 max-w-2xl mx-auto mb-4 animate-fade-in-up animate-delay-200">
             Prédisez la réussite académique grâce à l'intelligence artificielle
           </p>
-          <p className="text-sm md:text-base text-primary-foreground/60 max-w-xl mx-auto mb-10 animate-fade-in-up animate-delay-300">
-            Analyse prédictive · Recommandations personnalisées · Dashboard interactif
+          <p className="text-sm text-primary-foreground/60 max-w-xl mx-auto mb-10 animate-fade-in-up animate-delay-300 md:text-lg whitespace-pre-line">
+            AYOUB RGUIG{"\n"}
+            MASTER: IAITIP{"\n"}
+            sous la supervision de: Dr.AZOUGAGH
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-delay-400">
             <Button variant="hero" size="xl" onClick={() => navigate("/prediction")} className="gap-2">
